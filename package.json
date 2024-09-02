@@ -7,9 +7,9 @@
     "dev": "nodemon server/index.js"
   },
   "type": "module",
-  "author": "",
+  "author": "najmiter",
   "license": "ISC",
-  "description": "",
+  "description": "GraphQL with MongoDB or some shit",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
