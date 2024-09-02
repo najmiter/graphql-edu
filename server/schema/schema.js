@@ -5,6 +5,7 @@ import {
   GraphQLString,
   GraphQLObjectType,
   GraphQLNonNull,
+  GraphQLEnumType,
 } from 'graphql';
 
 import Client from '../models/Client.js';
@@ -95,6 +96,38 @@ const mutation = new GraphQLObjectType({
         });
 
         return client.save();
+      },
+    },
+
+    //
+
+    addProject: {
+      type: ProjectType,
+      args: {
+        name: { type: GraphQLNonNull(GraphQLString) },
+        description: { type: GraphQLNonNull(GraphQLString) },
+        status: {
+          type: new GraphQLEnumType({
+            name: 'ProjectStatus',
+            values: {
+              new: { value: 'Not Started' },
+              completed: { value: 'Completed' },
+              progress: { value: 'In Progress' },
+            },
+          }),
+          defaultValue: 'Not Started',
+        },
+        clientId: { type: GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args) {
+        const project = new Project({
+          name: args.name,
+          status: args.status,
+          clientId: args.clientId,
+          description: args.description,
+        });
+
+        return project.save();
       },
     },
   },
